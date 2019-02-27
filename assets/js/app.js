@@ -1,12 +1,12 @@
 /*
 Hilarious bug list:
-1) Script runs *slowly* - delayed for some reason
+1) There's a delay in the functions somewhere- it causes a question to append twice after a couple seconds- ON TOP of another appended item.  The second question pops up immediately, instead of displaying the win/loss message.  Then, after a 3 second delay, the next question appends on top of it.
 2) When you get a question wrong or right, both second and third questions append
 3) THEN, if you click any button, it will double upon itself, expanding exponentially
 4) Not a js or jq thing, but my initialize button refuses to center on the jumbotron.  I have tried personal CSS and bootstrap CSS to no avail.  It is married to the left and I hate it.
 5) Timer continues to rapidly decrease on multiple presses; we reviewed a fix in class.  Need to find and apply.
 6) Timer not resetting properly.  Continues countdown regardless of clear commands.  I'm sure the error is syntactical.
-7) There are, laughably, no errors.  
+7) When time runs out, timeUp executes, but for some reason the number 1 is appended alongside "time's up!" message
 */
 
 /* jQuery needs the document ready function because I am not a sophisticated
@@ -98,6 +98,9 @@ $(document).ready(function() {
     // This gives the button an on-click event that kicks off my first question
     $("#button").on("click", function(){
         clockRunning = true;
+        //hides the button and rules on click
+        $("#button").hide();
+        $("#rules").hide();
         askFirst();
         // NOTE: WILL NEED BUTTON TO DISAPPEAR
     });
@@ -162,12 +165,12 @@ $(document).ready(function() {
             //and kicks off a new function
             correctClick();
             //alternate solution here that moves game forward
-            if (questCounter = 0 || 1) {
-                askSecond();
-            }
-            else if (questCounter = 2) {
-                askThird();
-            }
+            // if (questCounter = 0 || 1) {
+            //     askSecond();
+            // }
+            // else if (questCounter = 2) {
+            //     askThird();
+            // }
         });
         // need a click event/function for both wrong and right clicks
         $(".incorrect").on("click", function(){
@@ -220,17 +223,27 @@ $(document).ready(function() {
         clearTimeout(timerCount);
         //kicks off the next question; careful with the order-of-operations
         //need all to resolve when questCounter hits 3
-        if (questCounter >= 3) {
+        if (questCounter >= 4) {
             //append victory/failure message, wipe the board
             //display rightGuess and wrongGuess score
             //chide or celebrate
+            $(".empty").hide();
+            $("#button").text("Try again?")
+            $("#button").show();
+            $("#button").on("click", function(){
+                questCounter = 0;
+                $("#questions").empty();
+                $("#answers").empty();
+                askFirst();
+                $(".empty").show();
+            })
         }
         else if (questCounter = 1) {   
-
-            setTimeout(askSecond, 1000 * 3)
+            //creates delay between victory/failure messages; starts next function
+            setTimeout(askSecond, setInterval(1000 * 3))
         }
-        else if (questCounter = 2) {
-            setTimeout(askThird, 1000 * 3);
+        else {
+            setTimeout(askThird, setInterval(1000 * 3));
         }
 
 
@@ -246,18 +259,31 @@ $(document).ready(function() {
         //clear the timer, reset later
         clearTimeout(timerCount);
 
-        if (questCounter >= 3) {
+        if (questCounter >= 4) {
             //append victory/failure message, wipe the board
             //display rightGuess and wrongGuess score
             //chide or celebrate
+            $(".empty").hide();
+            $("#button").text("Try again?")
+            $("#button").show();
+            $("#button").on("click", function(){
+                questCounter = 0;
+                $("#questions").empty();
+                $("#answers").empty();
+                askFirst();
+                $(".empty").show();
+            })
+            
+
+            
         }
-        else if (questCounter = 2) {
-            //do I call the variable or the function... I think the function-
-            setTimeout(askThird, 1000 * 3)
-        }
-        else if (questCounter = 1) {
-            setTimeout(askSecond, 1000 * 3);
-        }
+        // else if (questCounter = 2) {
+        //     //do I call the variable or the function... I think the function-
+        //     setTimeout(askThird, 1000 * 3)
+        // }
+        // else if (questCounter = 1) {
+        //     setTimeout(askSecond, 1000 * 3);
+        // }
     };
     
     

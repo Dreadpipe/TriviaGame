@@ -13,19 +13,23 @@
     <!--FUTURE: background and NAV BAR, returns user to portfolio-->
     
 <!--Simple big box, starting to hate jumbotron, but works great for this assignment-->
-<div class="container">
+<!--Adjust margins, currently shrink to fit-->
+<div class="container mt-5">
     <div class="row">
         <div class="jumbotron">
             <!--BIG BOX: TITLE-->
             <h1 class="display-4 text-center" id="title">Trivia Game</h1>
             <!--BIG BOX: RULES (DISAPPEARING)-->
-            
-            <p class="lead text-center" id="time">TIME GOES HERE</p>
+            <!--Give timer big font-->
+            <p class="lead text-center" id="time"></p>
             <p class="lead text-center" id="rules">RULES GO HERE, NINJA VANISH</p>
-            <a class="btn btn-primary btn-md" href="#" role="button">BEGIN!</a>
+            <!--WHY WON'T YOU FUCKING CENTER, I DON'T HAVE TIME FOR THIS-->
+            <a class="btn btn-primary btn-md" href="#" role="button" id="button">BEGIN!</a>
             <hr class="my-4">
             <!--BIG BOX: QUESTIONS-->
+            <!--<P> may be a sloppy solution- just buttons?-->
             <p class="text-center" id="questions"></p>
+            <!--Text will eventually enter into buttons, which will be actionable in mobile responsive formats-->
             <p class="text-center" id="answers"></p>
             <!--TO DO: Add button that initializes game-->
             

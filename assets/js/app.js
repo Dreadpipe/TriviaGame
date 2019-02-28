@@ -1,12 +1,14 @@
 /*
-Hilarious bug list:
-1) There's a delay in the functions somewhere- it causes a question to append twice after a couple seconds- ON TOP of another appended item.  The second question pops up immediately, instead of displaying the win/loss message.  Then, after a 3 second delay, the next question appends on top of it.
-2) When you get a question wrong or right, both second and third questions append
-3) THEN, if you click any button, it will double upon itself, expanding exponentially
-4) Not a js or jq thing, but my initialize button refuses to center on the jumbotron.  I have tried personal CSS and bootstrap CSS to no avail.  It is married to the left and I hate it.
-5) Timer continues to rapidly decrease on multiple presses; we reviewed a fix in class.  Need to find and apply.
-6) Timer not resetting properly.  Continues countdown regardless of clear commands.  I'm sure the error is syntactical.
-7) When time runs out, timeUp executes, but for some reason the number 1 is appended alongside "time's up!" message
+Hilarious bug/corrections list:
+1) I've added a three second delay between guesses, and an if/else conditional that moves us on from a correct/incorrect click to the next question. Unfortunately, it causes a question to append twice after a couple seconds- on top of another appended item.  The second question pops up immediately, instead of displaying the win/loss message.  Then, after a 3 second delay, the third question appends on top of it.  My if/else conditions have been commented out for now.
+2) When you get a question wrong or right, both second and third questions append, AND the timer stops
+3) THEN, if you click any appended button, it exponentially appends the next array of answer buttons for each click
+4) Not a js or jq thing, but my initialize button refuses to center on the jumbotron.  I have tried personal CSS and bootstrap CSS to no avail.  It is married to the left and I hate it.  I imagine I'll have to lose the bootstrap formatting, or dig deep into their classes.
+5) Timer continues to rapidly decrease on multiple presses; we reviewed a fix in class.  Need to find and apply. (May have partially solved)
+6) Timer not resetting properly after clicks
+7) When time runs out, timeUp executes, but for some reason the number 1 is appended alongside "time's up!" message = ("1Time's up!")
+8) All of this was done without a for loop.  That just CAN'T be right.
+9) I'm thinking my on-click events for correct/incorrect clicks can be removed from each question function to optimize code.
 */
 
 /* jQuery needs the document ready function because I am not a sophisticated
@@ -25,10 +27,11 @@ $(document).ready(function() {
     let rightGuess = 0;
     let wrongGuess = 0;
     // question counter variable will need to trigger later
-    // i.e. -  questCounter++; if questCounter = x; where "x" number of questions asked
+    // i.e. -  questCounter++; if questCounter = x; where "x" equals number of questions asked
     let questCounter = 0;
     
     // I'm going to make a super object that holds all of my questions
+    // Questions will be simple placeholders for now
     const questions = {
         quest1 : "Question one goes here",
         // will use alphabet instead of numbers to store answers, makes edits quicker
@@ -124,6 +127,7 @@ $(document).ready(function() {
                 //this begins the countdown clock
                 countDown();
                 //this clears the question <p>
+                //commendted this out, currently clearing the questions with correctClick and incorrectClick function
                 //$("#questions").append("");
                 $("#questions").append(firstQuest);
                 $("#answers").append(ans1, ans2, ans3, ans4);
@@ -156,6 +160,7 @@ $(document).ready(function() {
                 //this begins the countdown clock
                 countDown();
                 //this clears the question <p>
+                //commendted this out, currently clearing the questions with correctClick and incorrectClick function
                 //$("#questions").text("");
                 $("#questions").append(secondQuest);
                 $("#answers").append(ans1, ans2, ans3, ans4);
@@ -164,7 +169,7 @@ $(document).ready(function() {
         $(".correct").on("click", function(){
             //and kicks off a new function
             correctClick();
-            //alternate solution here that moves game forward
+            //alternate solution here that could solve my question bugs, but it's fucky as well
             // if (questCounter = 0 || 1) {
             //     askSecond();
             // }
@@ -193,6 +198,7 @@ $(document).ready(function() {
                 //this begins the countdown clock
                 countDown();
                 //this clears the question <p>
+                //commendted this out, currently clearing the questions with correctClick and incorrectClick function
                 //$("#questions").text("");
                 $("#questions").append(thirdQuest);
                 $("#answers").append(ans1, ans2, ans3, ans4);
@@ -277,6 +283,7 @@ $(document).ready(function() {
 
             
         }
+        //BUG: This is causing fuckery.  Need more time to investigate.
         // else if (questCounter = 2) {
         //     //do I call the variable or the function... I think the function-
         //     setTimeout(askThird, 1000 * 3)
@@ -286,6 +293,7 @@ $(document).ready(function() {
         // }
     };
     
+    //TO DO: Still need a function that displays wins and losses.
     
     
     
